@@ -9,7 +9,7 @@
     <div class="login-form__heading">
         <h1>管理者ログイン</h1>
     </div>
-    <form action="" method="post">
+    <form action="{{ route('login') }}" method="post">
         <div class="form__group">
             <div class="form__group-title">
                 <span class="form__label--item">メールアドレス</span>
