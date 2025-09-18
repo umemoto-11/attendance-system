@@ -17,10 +17,10 @@ class CreateAttendancesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->date('date');
-            $table->timestamp('clock_in')->nullable();
-            $table->timestamp('clock_out')->nullable();
-            $table->timestamp('corrected_clock_in')->nullable();
-            $table->timestamp('corrected_clock_out')->nullable();
+            $table->time('clock_in')->nullable();
+            $table->time('clock_out')->nullable();
+            $table->time('corrected_clock_in')->nullable();
+            $table->time('corrected_clock_out')->nullable();
             $table->text('corrected_reason')->nullable();
             $table->foreignId('corrected_by')->nullable()->constrained('users')->cascadeOnDelete('set null');
             $table->timestamps();
