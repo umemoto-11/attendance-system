@@ -13,7 +13,7 @@
     <header class="header">
         <div class="header__inner">
             <div class="header-utilities">
-                <img src="{{ assert('img/logo.svg') }}" alt="">
+                <img src="{{ asset('img/logo.svg') }}" alt="">
             </div>
             @yield('header')
         </div>
