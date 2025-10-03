@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\CustomLoginController;
+use App\Http\Controllers\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/login', [CustomLoginController::class, 'store'])->name('login');
+
 Route::get('/admin/login', function () {
     return view('admin.login');
 })->name('admin.login');
+Route::post('/admin/login', [CustomLoginController::class, 'store'])->name('admin.login.post');
