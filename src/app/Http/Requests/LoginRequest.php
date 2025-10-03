@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -41,16 +44,27 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    public function isAdminLogin()
+    {
+        return $this->routeIs('admin.login.post');
+    }
+
     public function authenticate()
     {
-        $credentials = $this->only('email', 'password');
+        $user = User::where('email', $this->email)->first();
 
-        if (!Auth::attempt($credentials, $this->boolean('remember'))) {
+        if (!$user || !Hash::check($this->password, $user->password)) {
             throw ValidationException::withMessages([
                 'password' => 'ログイン情報が登録されていません',
             ]);
         }
 
-        $this->session()->regenerate();
+        if ($this->isAdminLogin() && $user->role !== 'admin') {
+            throw ValidationException::withMessages([
+                'password' => 'ログイン情報が登録されていません',
+            ]);
+        }
+
+        Auth::login($user);
     }
 }
