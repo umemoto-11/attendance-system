@@ -36,7 +36,7 @@
                 </div>
                 <div class="form__error">
                     @error('email')
-                    {{ $massage }}
+                    {{ $message }}
                     @enderror
                 </div>
             </div>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="form__error">
                     @error('password_confirmation')
-                    {{ $massage }}
+                    {{ $message }}
                     @enderror
                 </div>
             </div>
