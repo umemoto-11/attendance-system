@@ -29,4 +29,6 @@ Route::post('/admin/login', [CustomLoginController::class, 'store'])->name('admi
 Route::middleware(['auth'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'record'])->name('attendance');
     Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
+
+    Route::get('/attendance/list', [AttendanceController::class, 'index'])->name('attendance.index');
 });
