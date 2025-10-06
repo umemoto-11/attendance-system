@@ -17,10 +17,10 @@ class AttendanceController extends Controller
 
         if (!$attendance || is_null($attendance->clock_in)) {
             $status = '勤務外';
+        } elseif (is_null($attendance->clock_out) && $attendance->breakTimes?->whereNull('break_end')->isNotEmpty()) {
+            $status = '休憩中';
         } elseif (is_null($attendance->clock_out)) {
             $status = '出勤中';
-        } elseif (is_null($attendance->clock_out) && $attendance->breakTimes->whereNull('break_end')->isNotEmpty()) {
-            $status = '休憩中';
         } else {
             $status = '退勤済み';
         }
@@ -55,6 +55,7 @@ class AttendanceController extends Controller
                 break;
             case 'break_start':
                 $attendance = Attendance::where('user_id', $userId)
+                    ->whereNull('clock_out')
                     ->latest()
                     ->first();
                 $attendance->breakTimes()
