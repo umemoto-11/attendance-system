@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 
 class AttendanceController extends Controller
 {
@@ -78,5 +79,53 @@ class AttendanceController extends Controller
         }
 
         return redirect()->route('attendance');
+    }
+
+    public function index(Request $request)
+    {
+        $year = now()->year;
+        $month = now()->month;
+
+        $selectedMonth = $request->input('month', now()->format('Y-m'));
+        [$year, $month] = explode('-', $selectedMonth);
+
+        $start = Carbon::create($year, $month, 1);
+        $end = $start->copy()->endOfMonth();
+        $period = CarbonPeriod::create($start, '1 day', $end);
+
+        $attendances = Attendance::with('breakTimes')
+            ->where('user_id', auth()->id())
+            ->whereBetween('date', [$start, $end])
+            ->orderBy('date', 'asc')
+            ->get()
+            ->keyBy(function ($attendances) {
+                return Carbon::parse($attendances->date)->format('Y-m-d');
+            });
+
+        $attendanceList = collect($period)->map(function ($date) use ($attendances) {
+            $dateStr = $date->format('Y-m-d');
+            $attendance = $attendances[$dateStr] ?? null;
+
+            if ($attendance) {
+                $totalBreakMinutes = $attendance->breakTimes->sum(function ($break) {
+                    return $break->break_start && $break->break_end ? Carbon::parse($break->break_start)->diffInMinutes(Carbon::parse($break->break_end)) : 0;
+                });
+
+                $attendance->break_time_total = sprintf('%02d:%02d', floor($totalBreakMinutes / 60), $totalBreakMinutes % 60);
+
+                $workMinutes = ($attendance->clock_in && $attendance->clock_out) ? Carbon::parse($attendance->clock_in)->diffInMinutes(Carbon::parse($attendance->clock_out)) : 0;
+
+                $actualMinutes = max(0, $workMinutes - $totalBreakMinutes);
+
+                $attendance->work_time_total = sprintf('%02d:%02d', floor($actualMinutes / 60), $actualMinutes % 60);
+            }
+
+            return [
+                'date' => $dateStr,
+                'attendance' => $attendance,
+            ];
+        });
+
+        return view('attendance_list', compact('attendanceList', 'selectedMonth'));
     }
 }
