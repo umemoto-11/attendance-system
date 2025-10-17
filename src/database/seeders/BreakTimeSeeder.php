@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Attendance;
-use App\Models\BreakTime;
 use Carbon\Carbon;
 
 class BreakTimeSeeder extends Seeder
@@ -27,8 +26,11 @@ class BreakTimeSeeder extends Seeder
                 continue;
             }
 
-            BreakTime::create([
-                'attendance_id' => $attendance->id,
+            if ($attendance->breakTimes()->exists()) {
+                continue;
+            }
+
+            $attendance->breakTimes()->create([
                 'break_start' => '12:00:00',
                 'break_end' => '13:00:00',
             ]);

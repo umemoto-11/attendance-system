@@ -23,6 +23,8 @@ class CreateAttendancesTable extends Migration
             $table->time('corrected_clock_out')->nullable();
             $table->text('corrected_reason')->nullable();
             $table->foreignId('corrected_by')->nullable()->constrained('users')->cascadeOnDelete('set null');
+            $table->timestamp('corrected_date')->nullable();
+            $table->enum('status', ['pending', 'approved']);
             $table->timestamps();
         });
     }

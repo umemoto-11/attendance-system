@@ -24,7 +24,7 @@ class AttendanceSeeder extends Seeder
 
         foreach ($users as $user) {
             for ($i = 0; $i < 30; $i++) {
-                $date = Carbon::create(2023, 6, 1)->addDays($i);
+                $date = Carbon::create(2025, 9, 1)->addDays($i);
 
                 if ($date->isSunday()) {
                     continue;
