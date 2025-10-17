@@ -19,7 +19,7 @@
             </a>
         </li>
         <li>
-            <form action="/logout" method="post">
+            <form action="{{ route('logout') }}" method="post">
                 @csrf
                 <button class="header__logout-button" type="submit">ログアウト</button>
             </form>

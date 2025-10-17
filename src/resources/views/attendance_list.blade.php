@@ -9,19 +9,32 @@
     <div class="attendance-list__heading">
         <h1>勤怠一覧</h1>
     </div>
-    <form action="{{ route('attendance.index') }}" method="method">
-        @csrf
-        <input type="month" name="month" value="{{ $selectedMonth }}" onchange="this.form.submit()">
-
+    <div class="month-switcher__container">
         @php
-        $current = Carbon\Carbon::createFromFormat('Y-m', $selectedMonth);
-        $prev = $current->copy()->subMonth()->format('Y-m');
-        $next = $current->copy()->addMonth()->format('Y-m');
+        $selectedMonth = isset($selectedMonth) ? \Carbon\Carbon::parse($selectedMonth) : \Carbon\Carbon::now();
+        $prev = $selectedMonth->copy()->subMonth()->format('Y-m');
+        $next = $selectedMonth->copy()->addMonth()->format('Y-m');
         @endphp
 
-        <button type="submit" name="month" value="{{ $prev }}">前月</button>
-        <button type="submit" name="month" value="{{ $next }}">翌月</button>
-    </form>
+        <div class="month-switcher">
+            <form action="{{ route('attendance.index') }}" method="get">
+                @csrf
+                <button class="month-switcher__button" type="submit" name="month" value="{{ $prev }}">← 前月</button>
+            </form>
+            <form action="{{ route('attendance.index') }}" method="get">
+                @csrf
+                <div class="month-switcher__input-wrapper">
+                    <img class="month-switcher__icon" src="{{ asset('img/50f4850c610ecd6f85b7ef666143260b91151a78.png') }}" alt="">
+                    <span id="monthDisplay" class="month-display">{{ $selectedMonth->format('Y/m') }}</span>
+                    <input id ="monthInput" class="month-switcher__input" type="month" name="month" value="{{ $selectedMonth->format('Y-m') }}" onchange="this.form.submit()">
+                </div>
+            </form>
+            <form action="{{ route('attendance.index') }}" method="get">
+                @csrf
+                <button class="month-switcher__button" type="submit" name="month" value="{{ $next }}">翌月 →</button>
+            </form>
+        </div>
+    </div>
     <div class="attendance-list-table">
         <table class="attendance-list-table__inner">
             <tr class="attendance-list-table__row">
@@ -38,23 +51,56 @@
                     {{ \Carbon\Carbon::parse($day['date'])->isoFormat('MM/DD(ddd)') }}
                 </td>
                 <td class="attendance-list-table__item">
-                    {{ $day['attendance'] && $day['attendance']->clock_in ? \Carbon\Carbon::parse($day['attendance']->clock_in)->format('H:i') : '' }}
+                    {{ $day['attendance']?->clock_in_formatted }}
                 </td>
                 <td class="attendance-list-table__item">
-                    {{ $day['attendance'] && $day['attendance']->clock_out ? \Carbon\Carbon::parse($day['attendance']->clock_out)->format('H:i') : '' }}
+                    {{ $day['attendance']?->clock_out_formatted }}
                 </td>
                 <td class="attendance-list-table__item">
-                    {{ $day['attendance']?->break_time_total ?? '' }}
+                    @if ($day['attendance'] && ($day['attendance']->clock_in || $day['attendance']->clock_out))
+                    {{ $day['attendance']->break_time_total }}
+                    @endif
                 </td>
                 <td class="attendance-list-table__item">
-                    {{ $day['attendance']?->work_time_total ?? '' }}
+                    @if ($day['attendance'] && ($day['attendance']->clock_in || $day['attendance']->clock_out))
+                    {{ $day['attendance']->work_time_total }}
+                    @endif
                 </td>
                 <td class="attendance-list-table__item">
-                    <a href="">詳細</a>
+                    @if ($day['attendance'])
+                    <a href="{{ route('attendance.show', $day['attendance']->id) }}">詳細</a>
+                    @else
+                    <a href="{{ route('attendance.show', ['id' => 0, 'date' => $day['date']]) }}">詳細</a>
+                    @endif
                 </td>
             </tr>
             @endforeach
         </table>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('monthInput');
+    const display = document.getElementById('monthDisplay');
+
+    if (!display) return;
+
+    if (input && input.value) {
+        const [year, month] = input.value.split('-');
+        if (year && month) display.textContent = `${year}/${month}`;
+    }
+
+    if (input) {
+        input.addEventListener('input', function() {
+            if (!this.value) {
+                return;
+            }
+            const [y, m] = this.value.split('-');
+            display.textContent = `${y}/${m}`;
+        });
+    }
+});
+</script>
+
 @endsection
