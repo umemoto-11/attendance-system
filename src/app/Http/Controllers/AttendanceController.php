@@ -87,6 +87,7 @@ class AttendanceController extends Controller
         $month = now()->month;
 
         $selectedMonth = $request->input('month', now()->format('Y-m'));
+        $selectedMonth = Carbon::parse($request->input('month', now()));
         [$year, $month] = explode('-', $selectedMonth);
 
         $start = Carbon::create($year, $month, 1);
@@ -127,5 +128,30 @@ class AttendanceController extends Controller
         });
 
         return view('attendance_list', compact('attendanceList', 'selectedMonth'));
+    }
+
+    public function show($id, Request $request)
+    {
+        $user = auth()->user();
+
+        if ($id == 0) {
+            $date = $request->query('date', now()->toDateString());
+
+            $attendance = new Attendance([
+                'user_id' => $user->id,
+                'date' => $date,
+            ]);
+
+            $attendance->setRelation('breakTimes', collect());
+
+            return view('attendance_detail',compact('attendance', 'user'));
+        }
+
+        $attendance = Attendance::with('breakTimes')
+            ->where('id', $id)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        return view('attendance_detail', compact('attendance', 'user'));
     }
 }
