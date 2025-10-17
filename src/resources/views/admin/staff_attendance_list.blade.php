@@ -78,7 +78,7 @@
         </table>
     </div>
     <div class="csv-export">
-        <a href="{{ route('admin.staffs.attendances.export', ['user' => $user->id, 'month' => $selectedMonth]) }}">CSV出力</a>
+        <a href="{{ route('admin.staffs.attendances.export', ['user' => $user->id, 'month' => $selectedMonth->format('Y-m')]) }}">CSV出力</a>
     </div>
 </div>
 
