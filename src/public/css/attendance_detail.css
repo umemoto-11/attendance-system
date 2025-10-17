@@ -1,0 +1,203 @@
+main {
+    background-color: #F0EFF2;
+    min-height: calc(100vh - 60px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px;
+}
+
+.attendance-detail__content,
+.request-approval__content {
+    border-radius: 16px;
+    padding: 40px 80px;
+    text-align: center;
+    max-width: 1000px;
+    width: 100%;
+}
+
+.attendance-detail__heading h1,
+.request-approval__heading h1 {
+    text-align: left;
+    border-left: 8px solid #000;
+    padding-left: 30px;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.attendance-detail-table,
+.request-approval-table {
+    width: 100%;
+    overflow: hidden;
+}
+
+.attendance-detail-table__inner,
+.request-approval-table__inner {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.attendance-detail-table__inner tr+tr,
+.request-approval-table__inner tr+tr {
+    border-top: 2px solid #E1E1E1;
+}
+
+.attendance-detail-table__header,
+.request-approval-table__header {
+    text-align: left;
+    width: 30%;
+    padding: 24px 60px;
+    font-weight: bold;
+    color: #737373;
+    vertical-align: middle;
+}
+
+.attendance-detail-table__item,
+.request-approval-table__item {
+    padding: 20px 30px;
+    vertical-align: middle;
+    text-align: left;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.attendance-detail-table__inner tr:first-child .attendance-detail-table__item {
+    padding-left: 55px;
+}
+
+.date-year, .date-md {
+    font-weight: bold;
+    margin-right: 6px;
+}
+
+.date-md {
+    padding-left: 65px;
+}
+
+.attendance-detail-table__item input[type="time"],
+.attendance-detail-table__item textarea,
+.request-approval-table__item input[type="time"],
+.request-approval-table__item textarea {
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+    font-size: 15px;
+    text-align:center;
+}
+
+.attendance-detail-table__item input[type="time"],
+.request-approval-table__item input[type="time"] {
+    width: 120px;
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    color: #000;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+.attendance-detail-table__item textarea,
+.request-approval-table__item textarea {
+    width: 323px;
+    height: 75px;
+    resize: none;
+    text-align: left;
+    font-weight: bold;
+    font-size: 16px;
+    color: #000;
+}
+
+.attendance-detail-table__item span,
+.request-approval-table__item span {
+    margin: 0 30px;
+    font-weight: 600px;
+}
+
+.attendance-detail__correction {
+    text-align: right;
+    margin-top: 30px;
+    color: red;
+}
+
+.attendance-detail__correction-button {
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 32px;
+    cursor: pointer;
+}
+
+.attendance-detail__correction-button:hover {
+    background-color: #333;
+}
+
+.attendance-row,
+.break-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.attendance-detail-table__item .error-message {
+    margin: 2px 15px 6px 5px;
+    font-size: 12px;
+    color: red;
+    display: inline-block;
+}
+
+.error-message-reason {
+    margin: 2px 15px 6px 5px;
+    font-size: 12px;
+    color: red;
+}
+
+.attendance-detail-table__inner input[disabled],
+.attendance-detail-table__inner textarea[disabled],
+.request-approval-table__inner input[disabled],
+.request-approval-table__inner textarea[disabled] {
+    border: none;
+    background-color: #fff;
+}
+
+.request-approval__button {
+    text-align: right;
+    margin-top: 30px;
+}
+
+.request-approval__button-submit {
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 32px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.approval-label {
+    background-color: #696969;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 0;
+    display: inline-block;
+    text-align: center;
+    margin: 0;
+}
+
+.request-approval__button-submit,
+.approval-label {
+    width: 100px;
+}

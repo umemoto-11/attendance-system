@@ -1,0 +1,150 @@
+main {
+    background-color: #F0EFF2;
+    min-height: 100vh;
+    display: flex;
+    padding: 40px 20px;
+    justify-content: center;
+}
+
+.attendance-list__content {
+    border-radius: 10px;
+    padding: 20px 60px;
+    text-align: center;
+    max-width: 900px;
+    width: 100%;
+}
+
+.attendance-list__heading h1 {
+    text-align: left;
+    border-left: 8px solid #000;
+    padding-left: 30px;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.month-switcher,
+.date-switcher {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+.month-switcher__button,
+.date-switcher__button {
+    background-color: #fff;
+    color: #737373;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.month-switcher__input-wrapper,
+.date-switcher__input-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    padding: 6px 10px;
+    background-color: #fff;
+}
+
+.month-switcher__icon,
+.date-switcher__icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    pointer-events: none;
+}
+
+.month-display,
+.date-display {
+    position: relative;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.month-switcher__input,
+.date-switcher__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.month-switcher__input,.date-switcher__input::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.attendance-list-table {
+    width: 100%;
+    overflow-x: auto;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.attendance-list-table__inner {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    table-layout: fixed;
+}
+
+.attendance-list-table__header {
+    padding: 12px;
+    border-bottom: 2px solid #E1E1E1;
+    font-weight: bold;
+    color: #737373;
+    font-weight: bold;
+}
+
+.attendance-list-table__item {
+    padding: 12px;
+    border-bottom: 1px solid #E1E1E1;
+    text-align: center;
+    color: #737373;
+    font-weight: bold;
+}
+
+.attendance-list-table__item a {
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.csv-export {
+    text-align: right;
+    margin-top: 30px;
+}
+
+.csv-export a {
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 32px;
+    cursor: pointer;
+    text-decoration: none;
+}
